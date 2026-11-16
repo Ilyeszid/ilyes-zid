@@ -1,2 +1,3 @@
 Hello Jenkins!
 New change for Jenkins
+Testing Jenkins automatic trigger
