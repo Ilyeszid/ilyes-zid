@@ -1,17 +1,39 @@
 pipeline {
     agent any
 
+    triggers {
+        pollSCM('* * * * *')
+    }
+
     stages {
+
         stage('Checkout') {
             steps {
-                echo 'Repository connected successfully!'
+                script {
+                    def repoUrl = 'https://github.com/Ilyeszid/ilyes-zid.git'
+
+                    git branch: 'main',
+                        url: repoUrl
+                }
             }
         }
 
-        stage('Test') {
+        stage('Build Maven') {
             steps {
-                sh 'cat test.txt'
+                echo 'Starting Maven Build...'
+                sh 'mvn clean package'
             }
+        }
+
+    }
+
+    post {
+        success {
+            echo 'Pipeline executed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
